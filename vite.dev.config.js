@@ -1,0 +1,1 @@
+../../views/shared/vite.dev.config.js

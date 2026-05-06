@@ -1,0 +1,312 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* --- Material-inspired tokens (expressive rounding + tonal surfaces / dark baseline) --- */
+.wf-demo-root {
+    isolation: isolate;
+    min-block-size: 100dvb;
+    /* Deep scrim akin to Material background */
+    background: radial-gradient(
+        1200px 700px at 12% -8%,
+        color-mix(in oklch, var(--wf-md-primary) 18%, oklch(0.13 0.02 280)),
+        oklch(0.11 0.02 280)
+    );
+    overflow: clip;
+    --wf-md-primary: oklch(0.74 0.14 294);
+    --wf-md-on-primary: oklch(0.2 0.04 294);
+    --wf-md-surface: oklch(0.16 0.02 280);
+    --wf-md-surf-container-low: oklch(0.19 0.025 278);
+    --wf-md-surf-container: oklch(0.22 0.03 276);
+    --wf-md-surf-container-high: oklch(0.26 0.035 274);
+    --wf-md-outline-variant: oklch(1 0.02 280 / 12%);
+    --wf-md-on-surface: oklch(0.93 0.02 274);
+    --wf-md-on-surface-variant: oklch(0.74 0.03 274);
+    --wf-md-error: oklch(0.7 0.18 22);
+}
+
+/* Chrome: no accidental text selection during drag — content opt-in selectable */
+.wf-chrome-no-select {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.wf-content-select {
+    user-select: text;
+    -webkit-user-select: text;
+}
+
+.wf-frame {
+    /* Subtle outer radius — was 1.75rem (~28px). */
+    --wf-shape-xl: 0.375rem;
+
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--wf-shape-xl);
+    border: 1px solid var(--wf-md-outline-variant);
+    overflow: clip;
+    color: var(--wf-md-on-surface);
+    background: var(--wf-md-surf-container-low);
+    /* Elevation 3 */
+    box-shadow:
+        0 2px 1px rgb(0 0 0 / 22%),
+        0 4px 3px rgb(0 0 0 / 16%),
+        0 8px 10px rgb(0 0 0 / 12%),
+        0 24px 32px rgb(0 0 0 / 32%);
+}
+
+.wf-frame.wf-hidden {
+    display: none !important;
+}
+
+.wf-frame.wf-minimized .wf-frame-body {
+    display: none !important;
+}
+
+.wf-frame.wf-minimized {
+    block-size: auto !important;
+    box-shadow:
+        0 1px 2px rgb(0 0 0 / 22%),
+        0 2px 4px rgb(0 0 0 / 14%);
+}
+
+.wf-titlebar {
+    flex: none;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0.25rem;
+    padding-inline: 0.5rem 0.25rem;
+    padding-block: 0.125rem;
+    /* WHY: Body uses `transform: translateZ(0)` + scrollers; without z-index, painted body can sit above chrome and swallow hits. */
+    position: relative;
+    z-index: 3;
+    pointer-events: auto;
+    background: linear-gradient(
+        165deg,
+        color-mix(in oklch, var(--wf-md-surf-container-high) 88%, transparent),
+        var(--wf-md-surf-container)
+    );
+    border-block-end: 1px solid var(--wf-md-outline-variant);
+}
+
+.wf-titlebar-drag {
+    flex: 1;
+    min-inline-size: 0;
+    min-block-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    padding-inline-start: 0.35rem;
+    cursor: grab;
+    touch-action: none;
+}
+
+.wf-titlebar-drag:active {
+    cursor: grabbing;
+}
+
+.wf-titlebar-actions {
+    flex: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.125rem;
+}
+
+.wf-title {
+    font: 550 0.875rem / 1.2 "Google Sans Flex", ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: 0.015em;
+    color: var(--wf-md-on-surface);
+    opacity: 0.96;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wf-chrome-btn {
+    inline-size: 2.25rem;
+    block-size: 2.25rem;
+    flex: none;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0.5rem;
+    background: transparent;
+    color: var(--wf-md-on-surface-variant);
+    cursor: pointer;
+    outline: none;
+    transition:
+        background 0.14s ease,
+        color 0.14s ease;
+}
+
+.wf-chrome-btn:hover {
+    background: color-mix(in oklch, var(--wf-md-on-surface) 10%, transparent);
+    color: var(--wf-md-on-surface);
+}
+
+.wf-chrome-btn:focus-visible {
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--wf-md-primary) 56%, transparent);
+}
+
+.wf-chrome-btn_close:hover {
+    background: color-mix(in oklch, var(--wf-md-error) 22%, transparent);
+    color: var(--wf-md-on-surface);
+}
+
+.wf-frame-body {
+    flex: 1;
+    min-block-size: 0;
+    min-inline-size: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 0;
+    /* WHY: Establishes a containing block so AirPad `position: fixed` toolbars clip to this frame, not the browser viewport. */
+    transform: translateZ(0);
+    background: var(--wf-md-surface);
+    border-end-start-radius: max(0px, calc(var(--wf-shape-xl) - 1px));
+    border-end-end-radius: max(0px, calc(var(--wf-shape-xl) - 1px));
+}
+
+/* Slot for routed `modules/views/*` roots */
+.wf-frame-slot.wf-mounted-view,
+.wf-frame-slot > .wf-mounted-view {
+    flex: 1;
+    min-block-size: 0;
+    overflow: auto;
+}
+
+.wf-mobile-max.wf-mobile {
+    border-radius: 0;
+}
+
+.wf-mobile-max.wf-mobile .wf-frame-body {
+    border-radius: 0;
+}
+
+.wf-resize {
+    position: absolute;
+    inset-inline-end: 4px;
+    inset-block-end: 4px;
+    /* WHY: Larger hit target than the visible glyph — small grips feel “broken” on HiDPI / trackpads. */
+    inline-size: 22px;
+    block-size: 22px;
+    cursor: se-resize;
+    /* WHY: `.wf-frame-body` uses `transform` + fills the flex column; without z-index the body layer often wins hit-testing in the corner. */
+    z-index: 4;
+    pointer-events: auto;
+    background:
+        linear-gradient(135deg, transparent 53%, color-mix(in oklch, var(--wf-md-on-surface) 52%, transparent) 53%) 100% 100% /
+        11px 11px no-repeat;
+    touch-action: none;
+}
+
+.wf-explorer {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-inline: 2px;
+}
+
+.wf-exp-row {
+    appearance: none;
+    border-radius: 0.75rem;
+    border: 1px solid transparent;
+    background: color-mix(in oklch, var(--wf-md-on-surface) 8%, transparent);
+    color: inherit;
+    font: inherit;
+    padding: 8px;
+    cursor: pointer;
+    text-align: start;
+}
+
+.wf-exp-row:hover {
+    border-color: var(--wf-md-outline-variant);
+}
+
+.wf-exp-row_sel {
+    outline: 1px solid color-mix(in oklch, var(--wf-md-primary) 55%, transparent);
+}
+
+.wf-viewer {
+    flex: 1;
+    min-block-size: 0;
+}
+
+.wf-md-body {
+    block-size: 100%;
+    overflow: auto;
+    padding: 12px;
+    margin: 0;
+    font-family:
+        "Google Sans Flex",
+        ui-sans-serif,
+        system-ui,
+        sans-serif;
+    font-size: 13px;
+    line-height: 1.52;
+}
+
+.wf-md h1,
+.wf-md h2,
+.wf-md h3 {
+    margin: 0 0 0.5rem;
+}
+
+.wf-md h1 {
+    font-size: 1.25rem;
+}
+
+.wf-md p {
+    margin: 0.35rem 0;
+}
+
+.wf-md pre {
+    background: color-mix(in oklch, var(--wf-md-on-surface) 8%, transparent);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    overflow: auto;
+}
+
+.wf-md code {
+    font-family:
+        ui-monospace,
+        "Google Sans Mono",
+        monospace;
+}
+
+.wf-md ul {
+    margin: 0.25rem;
+    padding-inline-start: 1.35rem;
+}
+
+.wf-md-err {
+    color: color-mix(in oklch, var(--wf-md-error) 85%, transparent);
+}
+
+.wf-hud {
+    position: fixed;
+    inset-block-end: 4px;
+    inset-inline-start: 4px;
+    max-inline-size: min(920px, 96vw);
+    margin: 0;
+    padding: 6px 10px;
+    font: 12px ui-sans-serif, system-ui, sans-serif;
+    color: var(--wf-md-on-surface-variant);
+    opacity: 0.88;
+}
+
+.wf-hud p {
+    margin: 0.15rem;
+}

@@ -1,0 +1,28 @@
+{
+    "name": "window-frame",
+    "version": "1.0.0",
+    "description": "Window-frame sub-shell: HTTPS dev on :443, draggable/resizable demos, viewer + explorer views.",
+    "type": "module",
+    "main": "./src/index.ts",
+    "module": "./src/index.ts",
+    "exports": {
+        ".": "./src/index.ts"
+    },
+    "scripts": {
+        "dev": "vite --config vite.config.js",
+        "dev:8443": "VIEW_DEV_PORT=8443 vite --config vite.config.js",
+        "ssl:localhost": "mkdir -p certs && openssl req -x509 -newkey rsa:2048 -nodes -keyout certs/key.pem -out certs/cert.pem -days 825 -subj '/CN=localhost'",
+        "demo": "npm run dev",
+        "build": "vite build --config vite.config.js",
+        "preview": "vite preview --config vite.config.js",
+        "test": "vitest run"
+    },
+    "keywords": ["shell", "window-frame", "lur.e"],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@vitejs/plugin-basic-ssl": "^2.1.0",
+        "vite": "^8.0.7",
+        "vitest": "^3.2.4"
+    }
+}
