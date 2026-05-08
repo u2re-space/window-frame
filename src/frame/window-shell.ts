@@ -2,6 +2,11 @@
  * WHY: Lightweight floating window chrome: {@link fest/object} drives bounds; pointer-driven drag / resize.
  * Mobile (`max-width: 640px`): split/maximized tiling via `demoRole`; desktop adds maximize/minimize/close.
  *
+ * NOTE: Not a `cw-shell-*` host — **no overlay layer**. Menus, dialogs, and `slot="overlay"` nodes from
+ * code running inside the frame must mount under the **parent** shell's `[data-shell-overlays]`
+ * (`resolveOverlayMountPoint` in `boot/shell-slots`) using an anchor inside the frame so `closest("cw-shell-*")`
+ * resolves the environment/minimal host.
+ *
  * Tagged shell markup uses {@link ../dom-lite.ts}; controls use {@link ./buttons.ts}.
  */
 import type { refType } from "fest/object";

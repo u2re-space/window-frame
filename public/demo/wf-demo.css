@@ -310,3 +310,60 @@
 .wf-hud p {
     margin: 0.15rem;
 }
+
+/*
+ * WHY: On screen `.wf-frame` is `position: fixed` with pixel bounds; markdown/viewer print CSS uses
+ * `position: static` + `overflow: visible` on inner hosts so document flow escapes the fixed box
+ * and can paint over hidden shell/workspace layers. For print, reset the frame to normal flow so
+ * content stays one continuous page stack inside the sheet margins.
+ */
+@media print {
+    .wf-demo-root {
+        overflow: visible !important;
+        min-block-size: 0 !important;
+        background: #fff !important;
+    }
+
+    .wf-frame {
+        position: static !important;
+        inset: auto !important;
+        left: auto !important;
+        top: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        inline-size: 100% !important;
+        max-inline-size: 100% !important;
+        block-size: auto !important;
+        min-block-size: 0 !important;
+        max-block-size: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        overflow: visible !important;
+        break-inside: avoid;
+        z-index: auto !important;
+        color: #000 !important;
+        background: transparent !important;
+    }
+
+    .wf-titlebar,
+    .wf-resize {
+        display: none !important;
+    }
+
+    .wf-frame-body {
+        transform: none !important;
+        overflow: visible !important;
+        flex: none !important;
+        flex-basis: auto !important;
+        min-block-size: 0 !important;
+        block-size: auto !important;
+        max-block-size: none !important;
+        background: transparent !important;
+        border-radius: 0 !important;
+    }
+
+    .wf-hud {
+        display: none !important;
+    }
+}
