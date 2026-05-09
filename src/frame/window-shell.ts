@@ -52,6 +52,11 @@ function readEnvWindowZBoost(host: HTMLElement | null | undefined): number {
 
 export type MountWindowFrameOptions = {
     onClose?: () => void;
+    /**
+     * When set (e.g. environment-shell keyed windows), stamped on `.wf-frame` as `data-wf-managed-view`
+     * so hosts can detect orphaned chrome after workspace `replaceChildren` / remounts.
+     */
+    managedViewKey?: string;
 };
 
 export function createChromeModel(
@@ -162,6 +167,9 @@ export function mountWindowFrame(
         : null;
 
     host.appendChild(frame);
+
+    const managedKey = String(options?.managedViewKey ?? "").trim();
+    if (managedKey) frame.setAttribute("data-wf-managed-view", managedKey);
 
     const applyChrome = () => {
         if (!visible.value) {
