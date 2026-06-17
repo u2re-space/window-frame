@@ -7,7 +7,7 @@ Sub-shell for draggable / resizable window chrome with **`fest/object` reactivit
 - `npm install` (from repo root or this package directory)
 - `npm run ssl:localhost` → writes `certs/cert.pem` + `certs/key.pem` (trusted self-signed PEMs bypass `@vitejs/plugin-basic-ssl`)
 - `npm run dev` → listens on **`VIEW_DEV_PORT` or 443**, HTTPS enabled  
-  Port **443** often needs elevated privileges (`sudo`), **`VIEW_DEV_HTTP=1`** (HTTP), or **`VIEW_DEV_PORT=8443`** (`npm run dev:8443`).
+  Port **443** often needs elevated privileges (`sudo`), **`VIEW_DEV_HTTP=1`** (HTTP), or **`VIEW_DEV_PORT=8434`** (`npm run dev:8434`).
 - **`VITE_DEV_ORIGIN`** mirrors `markdown-view` behavior for workers/mobile LAN access
 
 Demo entry: **`index.html`** → `demo/boot.ts` mounts two frames:
