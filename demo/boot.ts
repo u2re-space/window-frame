@@ -4,7 +4,7 @@
 import type { ShellContext } from "views/types";
 import { effect, numberRef, ref } from "fest/object";
 
-import { createChromeModel, mountWindowFrame } from "../src/frame/window-shell.ts";
+import { createChromeModel, mountWindowFrame } from "../src/window/window-shell.js";
 import { mountViewModule } from "../src/views/view-mount.ts";
 import { buildExplorerView } from "../src/views/explorer-view.ts";
 import { buildViewerView } from "../src/views/viewer-view.ts";

@@ -8,16 +8,16 @@ export {
     type DemoWindowRole,
     type WindowChromeModel,
     type MountWindowFrameOptions
-} from "./frame/window-shell.ts";
+} from "./window/window-shell.js";
 
-export type { ChromeButtonHandlers, ChromeButtonsApi } from "./frame/buttons.ts";
+export type { ChromeButtonHandlers, ChromeButtonsApi } from "./window/buttons.js";
 export {
     mountChromeButtons,
     chromeIconMinimize,
     chromeIconMaximize,
     chromeIconRestore,
     chromeIconClose
-} from "./frame/buttons.ts";
+} from "./window/buttons.js";
 
 export { buildExplorerView, type ExplorerEntry } from "./views/explorer-view.ts";
 export { buildViewerView } from "./views/viewer-view.ts";
