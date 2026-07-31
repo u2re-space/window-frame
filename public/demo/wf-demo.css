@@ -35,7 +35,7 @@
     );
     overflow: clip;
     /* WHY: Prefer wallpaper/JS --color-primary; purple only as cold-start fallback. */
-    --wf-md-primary: var(--color-primary, #00a3ad);
+    --wf-md-primary: var(--color-primary, #5a7fff);
     --base-color: var(--color-primary, var(--wf-md-primary));
     --wf-md-on-primary: --u2-color-mod(var(--wf-md-primary), 920);
     --wf-md-surface: --u2-color-mod(var(--wf-md-primary), 940);
