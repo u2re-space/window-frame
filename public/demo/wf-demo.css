@@ -4,27 +4,48 @@
     box-sizing: border-box;
 }
 
-/* --- Material-inspired tokens (expressive rounding + tonal surfaces / dark baseline) --- */
+@function --u2-color-mod(--base-color <color>, --index <number> : 550) returns <color> {
+    --i: clamp(0, var(--index), 1000);
+    --pivot: 550;
+    --white-distance: clamp(0, calc((var(--pivot) - var(--i)) / var(--pivot)), 1);
+    --black-distance: clamp(0, calc((var(--i) - var(--pivot)) / (1000 - var(--pivot))), 1);
+    --to-white: pow(var(--white-distance), 1.15);
+    --to-black: pow(var(--black-distance), 1.08);
+    --center-left: clamp(0, calc(var(--i) / var(--pivot)), 1);
+    --center-right: clamp(0, calc((1000 - var(--i)) / (1000 - var(--pivot))), 1);
+    --chroma-shape: sqrt(min(var(--center-left), var(--center-right)));
+    --chroma-scale: calc(0.08 + 0.92 * var(--chroma-shape));
+    result: oklch(
+        from var(--base-color)
+        calc(l + (0.985 - l) * var(--to-white) + (0.16 - l) * var(--to-black))
+        calc(c * var(--chroma-scale))
+        h
+    );
+}
+
+/* --- Material-inspired tokens via --u2-color-mod (names kept; dark baseline) --- */
 .wf-demo-root {
     isolation: isolate;
     min-block-size: 100dvb;
     /* Deep scrim akin to Material background */
     background: radial-gradient(
         1200px 700px at 12% -8%,
-        color-mix(in oklch, var(--wf-md-primary) 18%, oklch(0.13 0.02 280)),
-        oklch(0.11 0.02 280)
+        color-mix(in oklch, var(--wf-md-primary) 18%, --u2-color-mod(var(--wf-md-primary), 940)),
+        --u2-color-mod(var(--wf-md-primary), 960)
     );
     overflow: clip;
-    --wf-md-primary: oklch(0.74 0.14 294);
-    --wf-md-on-primary: oklch(0.2 0.04 294);
-    --wf-md-surface: oklch(0.16 0.02 280);
-    --wf-md-surf-container-low: oklch(0.19 0.025 278);
-    --wf-md-surf-container: oklch(0.22 0.03 276);
-    --wf-md-surf-container-high: oklch(0.26 0.035 274);
-    --wf-md-outline-variant: oklch(1 0.02 280 / 12%);
-    --wf-md-on-surface: oklch(0.93 0.02 274);
-    --wf-md-on-surface-variant: oklch(0.74 0.03 274);
-    --wf-md-error: oklch(0.7 0.18 22);
+    /* WHY: Prefer wallpaper/JS --color-primary; purple only as cold-start fallback. */
+    --wf-md-primary: var(--color-primary, #00a3ad);
+    --base-color: var(--color-primary, var(--wf-md-primary));
+    --wf-md-on-primary: --u2-color-mod(var(--wf-md-primary), 920);
+    --wf-md-surface: --u2-color-mod(var(--wf-md-primary), 940);
+    --wf-md-surf-container-low: --u2-color-mod(var(--wf-md-primary), 900);
+    --wf-md-surf-container: --u2-color-mod(var(--wf-md-primary), 860);
+    --wf-md-surf-container-high: --u2-color-mod(var(--wf-md-primary), 820);
+    --wf-md-outline-variant: color-mix(in oklab, --u2-color-mod(var(--wf-md-primary), 100) 12%, transparent);
+    --wf-md-on-surface: --u2-color-mod(var(--wf-md-primary), 100);
+    --wf-md-on-surface-variant: --u2-color-mod(var(--wf-md-primary), 280);
+    --wf-md-error: #ef4444;
 }
 
 /* Chrome: no accidental text selection during drag — content opt-in selectable */
