@@ -1,5 +1,5 @@
-import type { refType } from "fest/object";
-import { affected } from "fest/object";
+import type { refType } from "@fest-lib/object";
+import { affected } from "@fest-lib/object";
 import { h } from "../dom-lite.ts";
 
 export type ExplorerEntry = { id: string; label: string; path: string; kind?: "file" | "folder" };

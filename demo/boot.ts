@@ -2,7 +2,7 @@
  * WHY: Two window frames — Markdown viewer + `views/home-view` embedded in the explorer slot (fallback list UIs if import fails).
  */
 import type { ShellContext } from "views/types";
-import { effect, numberRef, ref } from "fest/object";
+import { effect, numberRef, ref } from "@fest-lib/object";
 
 import { createChromeModel, mountWindowFrame } from "../src/window/window-shell.js";
 import { mountViewModule } from "../src/views/view-mount.ts";
