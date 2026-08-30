@@ -18,6 +18,7 @@
             "fonts/*": ["../../views/shared/assets/fonts/*"],
             "@fest-lib/*": ["../../views/shared/fest/*"],
             "@fest-lib/dom": ["../../projects/dom.ts/src/index.ts"],
+            "@fest-lib/style-lib": ["../../projects/style.ts/src/index.ts"],
             "@fest-lib/lure": ["../../projects/lur.e/src/index.ts"],
             "@fest-lib/object": ["../../projects/object.ts/src/index.ts"],
             "@fest-lib/core": ["../../projects/core.ts/src/index.ts"],
