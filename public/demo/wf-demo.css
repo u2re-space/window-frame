@@ -27,13 +27,6 @@
 .wf-demo-root {
     isolation: isolate;
     min-block-size: 100dvb;
-    /* Deep scrim akin to Material background */
-    background: radial-gradient(
-        1200px 700px at 12% -8%,
-        color-mix(in oklch, var(--wf-md-primary) 18%, --u2-color-mod(var(--wf-md-primary), 940)),
-        --u2-color-mod(var(--wf-md-primary), 960)
-    );
-    overflow: clip;
     /* WHY: Prefer wallpaper/JS --color-primary; purple only as cold-start fallback. */
     --wf-md-primary: var(--color-primary, #5a7fff);
     --base-color: var(--color-primary, var(--wf-md-primary));
@@ -46,6 +39,25 @@
     --wf-md-on-surface: --u2-color-mod(var(--wf-md-primary), 100);
     --wf-md-on-surface-variant: --u2-color-mod(var(--wf-md-primary), 280);
     --wf-md-error: #ef4444;
+}
+
+/*
+ * WHY: CRX / env-shell host also has `.wf-demo-root` for tokens.
+ * The demo desk scrim is unlayered and would paint over `ui-canvas` wallpaper
+ * (root.scss kill lives in `@layer layout` and loses). Keep fill on bare demo only.
+ */
+.wf-demo-root:not(.env-shell-root) {
+    background: radial-gradient(
+        1200px 700px at 12% -8%,
+        color-mix(in oklch, var(--wf-md-primary) 18%, --u2-color-mod(var(--wf-md-primary), 940)),
+        --u2-color-mod(var(--wf-md-primary), 960)
+    );
+    overflow: clip;
+}
+
+.env-shell-root.wf-demo-root {
+    background: transparent;
+    overflow: visible;
 }
 
 /* Chrome: no accidental text selection during drag — content opt-in selectable */
